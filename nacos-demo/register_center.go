@@ -22,7 +22,7 @@ func initRegisterNacos() {
 		},
 	}
 
-	// nacos client config
+	// nacos client conf
 	cc := *constant.NewClientConfig(
 		constant.WithNamespaceId(""), //当namespace是public时，此处填空字符串。
 		constant.WithUsername("nacos"),

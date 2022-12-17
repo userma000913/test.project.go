@@ -28,8 +28,16 @@ func main() {
 			Tags:        nil,
 		}),
 	)
-	h.GET("/ping", func(c context.Context, ctx *app.RequestContext) {
-		ctx.JSON(consts.StatusOK, utils.H{"ping": "pong"})
+	h.POST("/ping", func(c context.Context, ctx *app.RequestContext) {
+		req := struct {
+			Name string `json:"name" form:"name"`
+			Age  int    `json:"age" form:"age"`
+		}{}
+		ctx.Bind(&req)
+		ctx.JSON(consts.StatusOK, utils.H{"name": req.Name, "age": req.Age})
+	})
+	h.GET("/t", func(c context.Context, ctx *app.RequestContext) {
+		ctx.JSON(consts.StatusOK, utils.H{"ping": "ping"})
 	})
 	h.Spin()
 }

@@ -4,11 +4,11 @@ import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	"hertz_demo/dao"
 )
 
 func Test(ctx context.Context, c *app.RequestContext) {
-	err := dao.CreateTestDemo()
+
+	err := svc.Test()
 	if err != nil {
 		c.JSON(consts.StatusOK, "failed")
 		return

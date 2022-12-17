@@ -59,7 +59,7 @@ func writeRemote() {
 
 	// 添加依赖
 	// _ "github.com/spf13/viper/remote"
-	viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", "/config/hugo.json")
+	viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", "/conf/hugo.json")
 	viper.SetConfigType("json")
 	_ = viper.ReadRemoteConfig()
 
@@ -70,13 +70,13 @@ func WatchRemote() {
 	// alternatively, you can create a new viper instance.
 	var runtime_viper = viper.New()
 
-	runtime_viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", "/config/hugo.yml")
+	runtime_viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", "/conf/hugo.yml")
 	runtime_viper.SetConfigType("yaml") // because there is no file extension in a stream of bytes, supported extensions are "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 
-	// read from remote config the first time.
+	// read from remote conf the first time.
 	_ = runtime_viper.ReadRemoteConfig()
 
-	// unmarshal config
+	// unmarshal conf
 	runtime_viper.Unmarshal(&Conf)
 
 	// open a goroutine to watch remote changes forever
@@ -88,11 +88,11 @@ func WatchRemote() {
 			// currently, only tested with etcd support
 			err := runtime_viper.WatchRemoteConfig()
 			if err != nil {
-				log.Errorf("unable to read remote config: %v", err)
+				log.Errorf("unable to read remote conf: %v", err)
 				continue
 			}
 
-			// unmarshal new config into our runtime config struct. you can also use channel
+			// unmarshal new conf into our runtime conf struct. you can also use channel
 			// to implement a signal to notify the system of the changes
 			runtime_viper.Unmarshal(&Conf)
 		}

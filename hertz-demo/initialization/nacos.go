@@ -9,7 +9,7 @@ import (
 
 // nacos做配置中心
 func InitNacosConfig() string {
-	// nacos server config
+	// nacos server conf
 	sc := []constant.ServerConfig{
 		{
 			IpAddr: "localhost",
@@ -18,7 +18,7 @@ func InitNacosConfig() string {
 		},
 	}
 
-	// nacos client config
+	// nacos client conf
 	cc := *constant.NewClientConfig(
 		constant.WithNamespaceId(""),
 		constant.WithUsername("nacos"),

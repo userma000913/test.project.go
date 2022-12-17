@@ -1,4 +1,4 @@
-package config
+package conf
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 )
 
 type AppConfig struct {
+	Env          string `yaml:"env" json:"env"`
 	Name         string `json:"name"`
 	Port         int    `json:"port"`
 	*MySQLConfig `yaml:"mysql" json:"mysql"`
@@ -39,16 +40,19 @@ var Conf *AppConfig
 func InitConfig() *AppConfig {
 	config := initialization.InitNacosConfig()
 	if config == "" {
-		log.Println("nacos config is empty")
+		log.Println("nacos conf is empty")
 		return nil
 	}
 
-	var c AppConfig
+	var c *AppConfig
 	if err := yaml.Unmarshal([]byte(config), &c); err != nil {
 		log.Printf("Unmarshal is err;err=%s", err)
 		return nil
 	}
-	fmt.Println("config ok")
-	Conf = &c
-	return &c
+	fmt.Println("conf ok")
+	return c
+}
+
+func nacosRegister() {
+
 }

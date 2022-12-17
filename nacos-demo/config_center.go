@@ -14,7 +14,7 @@ func main() {
 }
 
 func initConfigNacos() {
-	// nacos server config
+	// nacos server conf
 	sc := []constant.ServerConfig{
 		{
 			IpAddr:   "nacos.apizones.com",
@@ -24,7 +24,7 @@ func initConfigNacos() {
 		},
 	}
 
-	// nacos client config
+	// nacos client conf
 	cc := *constant.NewClientConfig(
 		constant.WithNamespaceId("bd71943c-a8df-4e8e-8d27-eda672f3550a"),
 		constant.WithUsername("dev"),
