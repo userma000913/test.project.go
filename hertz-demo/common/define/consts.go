@@ -1,4 +1,4 @@
-package consts
+package define
 
 // 服务注册名
 const ()
@@ -11,9 +11,3 @@ const ()
 
 // es index
 const ()
-
-
-
-
-
-

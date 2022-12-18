@@ -8,7 +8,6 @@ require (
 	github.com/hertz-contrib/opensergo v0.0.1
 	github.com/hertz-contrib/registry/nacos v0.0.0-20221212100328-1bb27d8b782a
 	github.com/nacos-group/nacos-sdk-go v1.1.2
-	github.com/nacos-group/nacos-sdk-go/v2 v2.1.2
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/mysql v1.4.4
 	gorm.io/gorm v1.24.2
