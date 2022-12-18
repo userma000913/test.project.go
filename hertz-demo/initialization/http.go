@@ -24,7 +24,7 @@ func InitHTTP(serviceName string) *HTTP {
 }
 
 func (h *HTTP) JsonPost(ctx context.Context, url string, data []byte) (int, []byte, error) {
-	url = fmt.Sprintf("http://%s%s", h.ServiceName, url)
+	url = fmt.Sprintf("server://%s%s", h.ServiceName, url)
 	req := protocol.AcquireRequest()
 	req.SetOptions(config.WithSD(true))
 	req.SetMethod(consts.MethodPost)
@@ -37,7 +37,7 @@ func (h *HTTP) JsonPost(ctx context.Context, url string, data []byte) (int, []by
 }
 
 func (h *HTTP) FormPost(ctx context.Context, url string, data map[string]string) (int, []byte, error) {
-	url = fmt.Sprintf("http://%s%s", h.ServiceName, url)
+	url = fmt.Sprintf("server://%s%s", h.ServiceName, url)
 	req := protocol.AcquireRequest()
 	req.SetOptions(config.WithSD(true))
 	req.SetMethod(consts.MethodPost)
@@ -49,7 +49,7 @@ func (h *HTTP) FormPost(ctx context.Context, url string, data map[string]string)
 }
 
 func (h *HTTP) Get(ctx context.Context, url string) (int, []byte, error) {
-	url = fmt.Sprintf("http://%s%s", h.ServiceName, url)
+	url = fmt.Sprintf("server://%s%s", h.ServiceName, url)
 	req := protocol.AcquireRequest()
 	req.SetOptions(config.WithSD(true))
 	req.SetMethod(consts.MethodGet)

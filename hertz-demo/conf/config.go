@@ -90,7 +90,7 @@ func InitConfigWithRemote(path string) {
 	// alternatively, you can create a new viper instance.
 	var runtimeViper = viper.New()
 
-	runtimeViper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", path)
+	runtimeViper.AddRemoteProvider("etcd", "server://127.0.0.1:4001", path)
 	runtimeViper.SetConfigType("yaml") // because there is no file extension in a stream of bytes, supported extensions are "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 
 	// read from remote conf the first time.

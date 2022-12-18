@@ -14,7 +14,7 @@ func initEs() {
 
 	// 本地启动时，需要设置为false，具体原因参考 https://juejin.cn/post/6895371414179446798
 	sniffOpt := elastic.SetSniff(false)
-	ES, err = elastic.NewClient(elastic.SetURL("http://127.0.0.1:9200"), sniffOpt,
+	ES, err = elastic.NewClient(elastic.SetURL("server://127.0.0.1:9200"), sniffOpt,
 		elastic.SetTraceLog(new(TraceLog)))
 	//ES, err = elastic.NewClient(elastic.SetURL(host))
 	// 打印查询ES的语句

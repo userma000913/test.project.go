@@ -59,7 +59,7 @@ func writeRemote() {
 
 	// 添加依赖
 	// _ "github.com/spf13/viper/remote"
-	viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", "/conf/hugo.json")
+	viper.AddRemoteProvider("etcd", "server://127.0.0.1:4001", "/conf/hugo.json")
 	viper.SetConfigType("json")
 	_ = viper.ReadRemoteConfig()
 
@@ -70,7 +70,7 @@ func WatchRemote() {
 	// alternatively, you can create a new viper instance.
 	var runtime_viper = viper.New()
 
-	runtime_viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", "/conf/hugo.yml")
+	runtime_viper.AddRemoteProvider("etcd", "server://127.0.0.1:4001", "/conf/hugo.yml")
 	runtime_viper.SetConfigType("yaml") // because there is no file extension in a stream of bytes, supported extensions are "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 
 	// read from remote conf the first time.

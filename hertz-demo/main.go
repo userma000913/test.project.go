@@ -12,8 +12,7 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"hertz_demo/conf"
-	"hertz_demo/controller"
-	"hertz_demo/router"
+	"hertz_demo/server/http"
 	"hertz_demo/service"
 	"log"
 )
@@ -40,7 +39,7 @@ func main() {
 		panic("config is nil")
 	}
 	s := service.New(c)
-	controller.Init(s)
+	http.Init(s)
 	addr := fmt.Sprintf("127.0.0.1:%d", c.Port)
 
 	// nacos注册中心客户端
@@ -72,7 +71,7 @@ func main() {
 	// Tracing & Sentinel
 	h.Use(hertztracing.ServerMiddleware(cfg), hertzSentinel.SentinelServerMiddleware())
 
-	router.InitRouter(h)
+	http.InitRouter(h)
 	h.Spin()
 
 }

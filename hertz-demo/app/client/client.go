@@ -53,7 +53,7 @@ func main() {
 		req := protocol.AcquireRequest()
 		req.SetOptions(config.WithSD(true))
 		req.SetMethod(consts.MethodPost)
-		req.SetRequestURI("http://demo1/ping")
+		req.SetRequestURI("server://demo1/ping")
 		type Test struct {
 			A int `json:"a"`
 			B int `json:"b"`

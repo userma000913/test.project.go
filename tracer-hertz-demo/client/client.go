@@ -24,7 +24,7 @@ func main() {
 	// You can refer to the example to implement a tracer middleware yourself to get the metrics you want.
 	c.Use(hertztracer.ClientTraceMW, hertztracer.ClientCtx)
 	for {
-		_, b, err := c.Get(context.Background(), nil, "http://localhost:8888/ping?name=hertz")
+		_, b, err := c.Get(context.Background(), nil, "server://localhost:8888/ping?name=hertz")
 		if err != nil {
 			hlog.Errorf(err.Error())
 		}
