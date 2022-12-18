@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"hertz_demo/backend"
 	"hertz_demo/conf"
 	"hertz_demo/server/http"
@@ -12,6 +13,12 @@ import (
 )
 
 func main() {
+	f, err := os.OpenFile("./output.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	hlog.SetOutput(f)
+	hlog.SetLevel(hlog.LevelDebug)
 
 	config := conf.InitConfigWithNacos()
 	if config == nil {
