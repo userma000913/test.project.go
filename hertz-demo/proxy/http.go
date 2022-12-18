@@ -36,6 +36,28 @@ func (h *HTTP) JsonPost(ctx context.Context, url string, data []byte) (int, []by
 
 }
 
+func (h *HTTP) FormPost(ctx context.Context, url string, data map[string]string) (int, []byte, error) {
+	url = fmt.Sprintf("http://%s%s", h.ServiceName, url)
+	req := protocol.AcquireRequest()
+	req.SetOptions(config.WithSD(true))
+	req.SetMethod(consts.MethodPost)
+	req.SetRequestURI(url)
+	req.Header.SetContentTypeBytes([]byte("application/x-www-form-urlencoded"))
+	req.SetFormData(data)
+	resp := protocol.AcquireResponse()
+	return h.jsonCall(ctx, req, resp)
+}
+
+func (h *HTTP) Get(ctx context.Context, url string) (int, []byte, error) {
+	url = fmt.Sprintf("http://%s%s", h.ServiceName, url)
+	req := protocol.AcquireRequest()
+	req.SetOptions(config.WithSD(true))
+	req.SetMethod(consts.MethodGet)
+	req.SetRequestURI(url)
+
+	return h.jsonCall(ctx, req, nil)
+}
+
 func (h *HTTP) jsonCall(ctx context.Context, req *protocol.Request, resp *protocol.Response) (int, []byte, error) {
 	cli, err := client.NewClient()
 	if err != nil {
@@ -69,26 +91,4 @@ func (h *HTTP) jsonCall(ctx context.Context, req *protocol.Request, resp *protoc
 		return resp.StatusCode(), nil, err
 	}
 	return resp.StatusCode(), resp.Body(), nil
-}
-
-func (h *HTTP) FormPost(ctx context.Context, url string, data map[string]string) (int, []byte, error) {
-	url = fmt.Sprintf("http://%s/%s", h.ServiceName, url)
-	req := protocol.AcquireRequest()
-	req.SetOptions(config.WithSD(true))
-	req.SetMethod(consts.MethodPost)
-	req.SetRequestURI(url)
-	req.Header.SetContentTypeBytes([]byte("application/x-www-form-urlencoded"))
-	req.SetFormData(data)
-	resp := protocol.AcquireResponse()
-	return h.jsonCall(ctx, req, resp)
-}
-
-func (h *HTTP) Get(ctx context.Context, url string) (int, []byte, error) {
-	url = fmt.Sprintf("http://%s/%s", h.ServiceName, url)
-	req := protocol.AcquireRequest()
-	req.SetOptions(config.WithSD(true))
-	req.SetMethod(consts.MethodGet)
-	req.SetRequestURI(url)
-
-	return h.jsonCall(ctx, req, nil)
 }
