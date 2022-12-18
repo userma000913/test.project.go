@@ -1,4 +1,4 @@
-package proxy
+package initialization
 
 import (
 	"github.com/olivere/elastic/v7"

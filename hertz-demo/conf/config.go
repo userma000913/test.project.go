@@ -2,6 +2,7 @@ package conf
 
 import (
 	"fmt"
+	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"gopkg.in/yaml.v3"
 	"log"
 )
@@ -39,8 +40,23 @@ type EsConfig struct {
 }
 
 func InitConfig() *AppConfig {
-	n := NewNacosClient()
-	n.InitNacosClient()
+
+	// 获取nacos配置
+	sc := []constant.ServerConfig{
+		*constant.NewServerConfig("127.0.0.1", 8848),
+	}
+
+	cc := *constant.NewClientConfig(
+		constant.WithNamespaceId(""),
+		constant.WithUsername("nacos"),
+		constant.WithPassword("nacos"),
+		constant.WithTimeoutMs(5000),
+		constant.WithNotLoadCacheAtStart(true),
+		constant.WithLogDir("/tmp/nacos/log"),
+		constant.WithCacheDir("/tmp/nacos/cache"),
+		constant.WithLogLevel("debug"),
+	)
+	n := InitNacos(sc, cc)
 	config, err := n.GetNacosConfigContent()
 	if err != nil {
 		log.Println(err)

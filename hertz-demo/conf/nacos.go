@@ -8,36 +8,20 @@ import (
 	"log"
 )
 
-type nacosClient struct {
+type Nacos struct {
 	Sc []constant.ServerConfig
 	Cc constant.ClientConfig
 }
 
-func NewNacosClient() *nacosClient {
-	return &nacosClient{}
-
-}
-
-func (n *nacosClient) InitNacosClient() {
-	n.Sc = []constant.ServerConfig{
-		*constant.NewServerConfig("127.0.0.1", 8848),
+func InitNacos(sc []constant.ServerConfig, cc constant.ClientConfig) *Nacos {
+	return &Nacos{
+		Sc: sc,
+		Cc: cc,
 	}
-
-	n.Cc = *constant.NewClientConfig(
-		constant.WithNamespaceId(""),
-		constant.WithUsername("nacos"),
-		constant.WithPassword("nacos"),
-		constant.WithTimeoutMs(5000),
-		constant.WithNotLoadCacheAtStart(true),
-		constant.WithLogDir("/tmp/nacos/log"),
-		constant.WithCacheDir("/tmp/nacos/cache"),
-		constant.WithLogLevel("debug"),
-	)
-
 }
 
 // nacos做配置中心
-func (n *nacosClient) GetNacosConfigClient() config_client.IConfigClient {
+func (n *Nacos) GetNacosConfigClient() config_client.IConfigClient {
 	// 创建nacos config客户端
 	client, err := clients.NewConfigClient(
 		vo.NacosClientParam{
@@ -51,19 +35,11 @@ func (n *nacosClient) GetNacosConfigClient() config_client.IConfigClient {
 		return nil
 	}
 
-	//content, err := client.GetConfig(vo.ConfigParam{
-	//	DataId: "hertz_demo",
-	//	Group:  "DEFAULT_GROUP"})
-	//
-	//if err != nil {
-	//	log.Println("配置获取失败 。。。", err.Error())
-	//}
-
 	return client
 
 }
 
-func (n *nacosClient) GetNacosConfigContent() (string, error) {
+func (n *Nacos) GetNacosConfigContent() (string, error) {
 	content, err := n.GetNacosConfigClient().
 		GetConfig(vo.ConfigParam{DataId: "hertz_demo", Group: "DEFAULT_GROUP"})
 	if err != nil {

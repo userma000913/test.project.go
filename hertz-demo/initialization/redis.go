@@ -1,4 +1,4 @@
-package proxy
+package initialization
 
 import (
 	"fmt"
