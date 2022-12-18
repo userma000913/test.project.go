@@ -1,7 +1,8 @@
-name:
-  hertz.demo
-port:
-  8084
+server:
+  name:
+    hertz.demo
+  port:
+    8084
 
 mysql:
   host: 127.0.0.1

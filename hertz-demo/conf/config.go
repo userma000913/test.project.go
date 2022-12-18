@@ -11,11 +11,15 @@ import (
 )
 
 type AppConfig struct {
-	Env          string `yaml:"env" json:"env"`
-	Name         string `json:"name"`
-	Port         int    `json:"port"`
-	*MySQLConfig `yaml:"mysql" json:"mysql"`
-	*RedisConfig `yaml:"redis" json:"redis"`
+	Server *Server      `json:"*service" yaml:"server"`
+	Mysql  *MySQLConfig `yaml:"mysql" json:"mysql"`
+	Redis  *RedisConfig `yaml:"redis" json:"redis"`
+}
+
+type Server struct {
+	Env  string `yaml:"env" json:"env"`
+	Name string `json:"name"`
+	Port int    `json:"port"`
 }
 
 // MySQLConfig 定义mysql配置文件的结构体

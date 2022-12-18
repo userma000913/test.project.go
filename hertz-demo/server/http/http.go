@@ -23,7 +23,7 @@ var (
 
 func Init(s *service.Service, config *conf.AppConfig) {
 	svc = s
-	addr := fmt.Sprintf("127.0.0.1:%d", config.Port)
+	addr := fmt.Sprintf("127.0.0.1:%d", config.Server.Port)
 	sc := []constant.ServerConfig{
 		*constant.NewServerConfig("127.0.0.1", 8848),
 	}
@@ -55,7 +55,7 @@ func Init(s *service.Service, config *conf.AppConfig) {
 	h = server.Default(
 		server.WithHostPorts(addr),
 		server.WithRegistry(r, &registry.Info{
-			ServiceName: config.Name,
+			ServiceName: config.Server.Name,
 			Addr:        utils.NewNetAddr("tcp", addr),
 			Weight:      10,
 			Tags:        nil,
