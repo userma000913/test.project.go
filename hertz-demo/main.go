@@ -34,7 +34,8 @@ func main() {
 		CacheDir:            "/tmp/nacos/cache",
 		LogLevel:            "debug",
 	}
-	c := conf.InitConfig()
+	n := conf.InitNacos(sc, cc)
+	c := conf.InitConfigWithNacos(n)
 	if c == nil {
 		panic("config is nil")
 	}
