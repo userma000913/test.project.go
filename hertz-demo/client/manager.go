@@ -1,8 +1,8 @@
-package manager
+package client
 
 import (
+	"hertz_demo/client/demo1"
 	"hertz_demo/conf"
-	"hertz_demo/manager/demo1"
 )
 
 // 服务发现

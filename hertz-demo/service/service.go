@@ -1,23 +1,23 @@
 package service
 
 import (
+	"hertz_demo/client"
 	"hertz_demo/conf"
 	"hertz_demo/dao"
-	"hertz_demo/manager"
 )
 
 type Service struct {
 	c *conf.AppConfig
 
 	dao *dao.Dao
-	mgr *manager.Manager
+	mgr *client.Manager
 }
 
 func New(c *conf.AppConfig) *Service {
 	return &Service{
 		c:   c,
 		dao: dao.New(c),
-		mgr: manager.New(c),
+		mgr: client.New(c),
 	}
 }
 
