@@ -19,7 +19,7 @@ func New(c *conf.AppConfig) *Dao {
 		dao = &Dao{
 			c: c,
 			// 初始化mysql
-			mysql: proxy.InitMysql(c.MySQLConfig),
+			//mysql: proxy.InitMysql(c.MySQLConfig),
 		}
 	}
 	return dao

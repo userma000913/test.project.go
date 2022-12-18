@@ -9,9 +9,10 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/registry/nacos"
-	"log"
+	"github.com/nacos-group/nacos-sdk-go/clients"
+	"github.com/nacos-group/nacos-sdk-go/common/constant"
+	"github.com/nacos-group/nacos-sdk-go/vo"
 )
 
 type HTTP struct {
@@ -22,26 +23,8 @@ func InitHTTP(serviceName string) *HTTP {
 	return &HTTP{ServiceName: serviceName}
 }
 
-// Resolver 服务发现
-func (h *HTTP) Resolver() *client.Client {
-	c, err := client.NewClient()
-	// OpenTelemetry
-	c.Use(hertztracing.ClientMiddleware())
-
-	if err != nil {
-		panic(err)
-	}
-	r, err := nacos.NewDefaultNacosResolver()
-	if err != nil {
-		log.Fatal(err)
-		return nil
-	}
-	c.Use(sd.Discovery(r))
-	return c
-}
-
 func (h *HTTP) JsonPost(ctx context.Context, url string, data []byte) (int, []byte, error) {
-	url = fmt.Sprintf("http://%s/%s", h.ServiceName, url)
+	url = fmt.Sprintf("http://%s%s", h.ServiceName, url)
 	req := protocol.AcquireRequest()
 	req.SetOptions(config.WithSD(true))
 	req.SetMethod(consts.MethodPost)
@@ -49,13 +32,43 @@ func (h *HTTP) JsonPost(ctx context.Context, url string, data []byte) (int, []by
 	req.SetBody(data)
 	req.Header.SetContentTypeBytes([]byte("application/json"))
 	resp := protocol.AcquireResponse()
-	err := client.Do(ctx, req, resp)
+	return h.jsonCall(ctx, req, resp)
+
+}
+
+func (h *HTTP) jsonCall(ctx context.Context, req *protocol.Request, resp *protocol.Response) (int, []byte, error) {
+	cli, err := client.NewClient()
+	if err != nil {
+		panic(err)
+	}
+	sc := []constant.ServerConfig{
+		*constant.NewServerConfig("127.0.0.1", 8848),
+	}
+	cc := constant.ClientConfig{
+		NamespaceId:         "public",
+		TimeoutMs:           5000,
+		NotLoadCacheAtStart: true,
+		LogDir:              "/tmp/nacos/log",
+		CacheDir:            "/tmp/nacos/cache",
+		LogLevel:            "info",
+	}
+
+	nacosCli, err := clients.NewNamingClient(
+		vo.NacosClientParam{
+			ClientConfig:  &cc,
+			ServerConfigs: sc,
+		})
+	if err != nil {
+		panic(err)
+	}
+	r := nacos.NewNacosResolver(nacosCli)
+	cli.Use(sd.Discovery(r))
+	err = cli.Do(ctx, req, resp)
 	if err != nil {
 		hlog.Fatal(err)
 		return resp.StatusCode(), nil, err
 	}
 	return resp.StatusCode(), resp.Body(), nil
-
 }
 
 func (h *HTTP) FormPost(ctx context.Context, url string, data map[string]string) (int, []byte, error) {
@@ -67,19 +80,15 @@ func (h *HTTP) FormPost(ctx context.Context, url string, data map[string]string)
 	req.Header.SetContentTypeBytes([]byte("application/x-www-form-urlencoded"))
 	req.SetFormData(data)
 	resp := protocol.AcquireResponse()
-	err := client.Do(ctx, req, resp)
-	if err != nil {
-		hlog.Fatal(err)
-		return resp.StatusCode(), nil, err
-	}
-	return resp.StatusCode(), resp.Body(), nil
+	return h.jsonCall(ctx, req, resp)
 }
 
-func (h *HTTP) Get(ctx context.Context, url string) {
+func (h *HTTP) Get(ctx context.Context, url string) (int, []byte, error) {
 	url = fmt.Sprintf("http://%s/%s", h.ServiceName, url)
-	status, body, err := h.Resolver().Get(ctx, nil, url, config.WithSD(true))
-	if err != nil {
-		hlog.Fatal(err)
-	}
-	hlog.Infof("code=%d,body=%s\n", status, string(body))
+	req := protocol.AcquireRequest()
+	req.SetOptions(config.WithSD(true))
+	req.SetMethod(consts.MethodGet)
+	req.SetRequestURI(url)
+
+	return h.jsonCall(ctx, req, nil)
 }

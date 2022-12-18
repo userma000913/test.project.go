@@ -8,11 +8,13 @@ import (
 
 func Test(ctx context.Context, c *app.RequestContext) {
 
-	err := svc.Test()
-	if err != nil {
-		c.JSON(consts.StatusOK, "failed")
-		return
-	}
-	c.JSON(consts.StatusOK, "success")
+	//err := svc.Test()
+	name := c.Query("name")
+	c.JSON(consts.StatusOK, name)
 	return
+}
+
+func TestMgr(c context.Context, ctx *app.RequestContext) {
+
+	svc.TestMgr(c, ctx)
 }

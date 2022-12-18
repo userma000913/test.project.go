@@ -7,6 +7,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/middlewares/client/sd"
 	"github.com/cloudwego/hertz/pkg/common/config"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
+	"github.com/cloudwego/hertz/pkg/common/json"
 	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/hertz-contrib/registry/nacos"
@@ -52,13 +53,22 @@ func main() {
 		req := protocol.AcquireRequest()
 		req.SetOptions(config.WithSD(true))
 		req.SetMethod(consts.MethodPost)
-		req.SetRequestURI("http://hertz.test.demo/ping")
-		//req.SetBody(b)
-		req.SetFormData(map[string]string{
-			"name": "tom",
-			"age":  "11",
-		})
-		req.Header.SetContentTypeBytes([]byte("application/x-www-form-urlencoded"))
+		req.SetRequestURI("http://demo1/ping")
+		type Test struct {
+			A int `json:"a"`
+			B int `json:"b"`
+		}
+		t := Test{A: 11, B: 22}
+		b, err := json.Marshal(t)
+		if err != nil {
+
+		}
+		req.SetBody(b)
+		//req.SetFormData(map[string]string{
+		//	"name": "tom",
+		//	"age":  "11",
+		//})
+		req.Header.SetContentTypeBytes([]byte("application/json"))
 		resp := protocol.AcquireResponse()
 		err = client.Do(context.Background(), req, resp)
 		if err != nil {

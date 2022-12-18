@@ -14,7 +14,7 @@ type Manager struct {
 func NewManager(c *conf.AppConfig) *Manager {
 	return &Manager{
 		c:          c,
-		httpClient: proxy.InitHTTP(""),
-		Url1:       "/test",
+		httpClient: proxy.InitHTTP("demo1"),
+		Url1:       "/ping",
 	}
 }
