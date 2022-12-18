@@ -357,6 +357,8 @@ github.com/henrylee2cn/ameda v1.4.10 h1:JdvI2Ekq7tapdPsuhrc4CaFiqw6QXFvZIULWJgQy
 github.com/henrylee2cn/ameda v1.4.10/go.mod h1:liZulR8DgHxdK+MEwvZIylGnmcjzQ6N6f2PlWe7nEO4=
 github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8 h1:yE9ULgp02BhYIrO6sdV/FPe0xQM6fNHkVQW2IAymfM0=
 github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8/go.mod h1:Nhe/DM3671a5udlv2AdV2ni/MZzgfv2qrPL5nIi3EGQ=
+github.com/hertz-contrib/obs-opentelemetry/logging/logrus v0.1.1 h1:4KR/JoIc8PSbVucOzsLSJOtVgDowwNG6/C/GkrpPXHI=
+github.com/hertz-contrib/obs-opentelemetry/logging/logrus v0.1.1/go.mod h1:dLQsSFKUVF4pya7kLlF6l1T69+mOPObotXGJO8ptbho=
 github.com/hertz-contrib/obs-opentelemetry/tracing v0.1.1 h1:Ua/ImpcbYt8ohRolat3Ua7BEmeI7V4INRIbFKZJUndc=
 github.com/hertz-contrib/obs-opentelemetry/tracing v0.1.1/go.mod h1:dhvPLrGU5FKUpzv4qYOO4Wgo/D4ldPyw+LwIvcDTKP8=
 github.com/hertz-contrib/opensergo v0.0.1 h1:13E0Jnod1IUIdLNPtuf/gGf+j5Pyw3QKcVTveacbWnA=

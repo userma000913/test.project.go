@@ -9,6 +9,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/registry/nacos"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -85,6 +86,8 @@ func (h *HTTP) jsonCall(ctx context.Context, req *protocol.Request, resp *protoc
 	}
 	r := nacos.NewNacosResolver(nacosCli)
 	cli.Use(sd.Discovery(r))
+	// 客户端Tracing
+	cli.Use(hertztracing.ClientMiddleware())
 	err = cli.Do(ctx, req, resp)
 	if err != nil {
 		hlog.Fatal(err)

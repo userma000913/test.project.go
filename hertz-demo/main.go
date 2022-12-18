@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
+	hertzlogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
 	"hertz_demo/backend"
 	"hertz_demo/conf"
 	"hertz_demo/server/http"
@@ -17,6 +18,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	hlog.SetLogger(hertzlogrus.NewLogger())
 	hlog.SetOutput(f)
 	hlog.SetLevel(hlog.LevelDebug)
 

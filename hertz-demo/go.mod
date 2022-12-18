@@ -60,6 +60,7 @@ require (
 	github.com/hashicorp/serf v0.9.8 // indirect
 	github.com/henrylee2cn/ameda v1.4.10 // indirect
 	github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8 // indirect
+	github.com/hertz-contrib/obs-opentelemetry/logging/logrus v0.1.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
@@ -89,6 +90,7 @@ require (
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/sagikazarmark/crypt v0.8.0 // indirect
 	github.com/shirou/gopsutil/v3 v3.21.6 // indirect
+	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
