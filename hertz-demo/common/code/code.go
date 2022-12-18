@@ -28,7 +28,7 @@ func GetApiResponse(code int, msg ...string) model.ApiResult {
 		defMsg = msg[0]
 	}
 
-	return model.ApiResult{DmError: code, ErrorMsg: defMsg}
+	return model.ApiResult{Code: code, Msg: defMsg}
 }
 
 func GetResp(data interface{}, code int) (res model.RespBase, resCode int) {

@@ -1,77 +1,42 @@
 package main
 
 import (
-	"fmt"
-	"github.com/cloudwego/hertz/pkg/app/server"
-	"github.com/cloudwego/hertz/pkg/app/server/registry"
-	"github.com/cloudwego/hertz/pkg/common/utils"
-	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
-	hertzSentinel "github.com/hertz-contrib/opensergo/sentinel/adapter"
-	"github.com/hertz-contrib/registry/nacos"
-	"github.com/nacos-group/nacos-sdk-go/clients"
-	"github.com/nacos-group/nacos-sdk-go/common/constant"
-	"github.com/nacos-group/nacos-sdk-go/vo"
+	"hertz_demo/backend"
 	"hertz_demo/conf"
 	"hertz_demo/server/http"
 	"hertz_demo/service"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
 
-	sc := []constant.ServerConfig{
-		*constant.NewServerConfig("127.0.0.1", 8848),
-	}
-
-	cc := constant.ClientConfig{
-		NamespaceId:         "public",
-		Username:            "nacos",
-		Password:            "nacos",
-		TimeoutMs:           5000,
-		NotLoadCacheAtStart: true,
-		LogDir:              "/tmp/nacos/log",
-		CacheDir:            "/tmp/nacos/cache",
-		LogLevel:            "debug",
-	}
-	n := conf.InitNacos(sc, cc)
-	c := conf.InitConfigWithNacos(n)
-	if c == nil {
+	config := conf.InitConfigWithNacos()
+	if config == nil {
 		panic("config is nil")
 	}
-	s := service.New(c)
-	http.Init(s)
-	addr := fmt.Sprintf("127.0.0.1:%d", c.Port)
+	s := service.New(config)
+	http.Init(s, config)
+	defer http.Shutdown()
 
-	// nacos注册中心客户端
-	cli, err := clients.NewNamingClient(
-		vo.NacosClientParam{
-			ClientConfig:  &cc,
-			ServerConfigs: sc,
-		},
-	)
-	if err != nil {
-		log.Fatal(err)
-		return
+	// 启动后台进程
+	backend.New(config).Start()
+
+	// 优雅退出
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
+	for {
+		s := <-sigChan
+		log.Printf("get a signal %s\n", s.String())
+		switch s {
+		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
+			log.Println("room.event.adapter server exit now...")
+			return
+		case syscall.SIGHUP:
+		default:
+		}
 	}
-
-	// 服务注册
-	r := nacos.NewNacosRegistry(cli)
-	tracer, cfg := hertztracing.NewServerTracer()
-	h := server.Default(
-		server.WithHostPorts(addr),
-		server.WithRegistry(r, &registry.Info{
-			ServiceName: c.Name,
-			Addr:        utils.NewNetAddr("tcp", addr),
-			Weight:      10,
-			Tags:        nil,
-		}),
-		tracer,
-	)
-
-	// Tracing & Sentinel
-	h.Use(hertztracing.ServerMiddleware(cfg), hertzSentinel.SentinelServerMiddleware())
-
-	http.InitRouter(h)
-	h.Spin()
 
 }

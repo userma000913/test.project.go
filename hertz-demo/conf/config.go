@@ -3,6 +3,7 @@ package conf
 import (
 	"fmt"
 	"github.com/fsnotify/fsnotify"
+	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 	"log"
@@ -41,8 +42,22 @@ type EsConfig struct {
 	Host string `mapstructure:"host" yaml:"host"`
 }
 
-func InitConfigWithNacos(n *Nacos) *AppConfig {
+func InitConfigWithNacos() *AppConfig {
+	sc := []constant.ServerConfig{
+		*constant.NewServerConfig("127.0.0.1", 8848),
+	}
 
+	cc := constant.ClientConfig{
+		NamespaceId:         "public",
+		Username:            "nacos",
+		Password:            "nacos",
+		TimeoutMs:           5000,
+		NotLoadCacheAtStart: true,
+		LogDir:              "/tmp/nacos/log",
+		CacheDir:            "/tmp/nacos/cache",
+		LogLevel:            "debug",
+	}
+	n := InitNacos(sc, cc)
 	// 获取nacos配置
 	config, err := n.GetNacosConfigContent()
 	if err != nil {
