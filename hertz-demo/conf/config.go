@@ -3,7 +3,6 @@ package conf
 import (
 	"fmt"
 	"gopkg.in/yaml.v3"
-	"hertz_demo/initialization"
 	"log"
 )
 
@@ -35,12 +34,16 @@ type RedisConfig struct {
 	PoolSize int    `mapstructure:"pool_size" yaml:"pool_size"`
 }
 
-var Conf *AppConfig
+type EsConfig struct {
+	Host string `mapstructure:"host" yaml:"host"`
+}
 
 func InitConfig() *AppConfig {
-	config := initialization.InitNacosConfig()
-	if config == "" {
-		log.Println("nacos conf is empty")
+	n := NewNacosClient()
+	n.InitNacosClient()
+	config, err := n.GetNacosConfigContent()
+	if err != nil {
+		log.Println(err)
 		return nil
 	}
 
@@ -51,8 +54,4 @@ func InitConfig() *AppConfig {
 	}
 	fmt.Println("conf ok")
 	return c
-}
-
-func nacosRegister() {
-
 }
