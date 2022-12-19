@@ -33,7 +33,7 @@ func (h *HTTP) JsonPost(ctx context.Context, url string, data []byte) (int, []by
 	req.SetBody(data)
 	req.Header.SetContentTypeBytes([]byte("application/json"))
 	resp := protocol.AcquireResponse()
-	return h.jsonCall(ctx, req, resp)
+	return h.call(ctx, req, resp)
 
 }
 
@@ -46,7 +46,7 @@ func (h *HTTP) FormPost(ctx context.Context, url string, data map[string]string)
 	req.Header.SetContentTypeBytes([]byte("application/x-www-form-urlencoded"))
 	req.SetFormData(data)
 	resp := protocol.AcquireResponse()
-	return h.jsonCall(ctx, req, resp)
+	return h.call(ctx, req, resp)
 }
 
 func (h *HTTP) Get(ctx context.Context, url string) (int, []byte, error) {
@@ -56,10 +56,10 @@ func (h *HTTP) Get(ctx context.Context, url string) (int, []byte, error) {
 	req.SetMethod(consts.MethodGet)
 	req.SetRequestURI(url)
 
-	return h.jsonCall(ctx, req, nil)
+	return h.call(ctx, req, nil)
 }
 
-func (h *HTTP) jsonCall(ctx context.Context, req *protocol.Request, resp *protocol.Response) (int, []byte, error) {
+func (h *HTTP) call(ctx context.Context, req *protocol.Request, resp *protocol.Response) (int, []byte, error) {
 	cli, err := client.NewClient()
 	if err != nil {
 		panic(err)
