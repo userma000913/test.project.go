@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	gormopentracing "gorm.io/plugin/opentracing"
 	"hertz_demo/conf"
 	"log"
 )
@@ -19,7 +20,11 @@ func InitMysql(c *conf.MySQLConfig) *Mysql {
 
 	db, err := gorm.Open(mysql.Open(dsn))
 	if err != nil {
-		log.Println()
+		log.Println(err)
+		return nil
+	}
+	if err = db.Use(gormopentracing.New()); err != nil {
+		log.Println(err)
 		return nil
 	}
 	return &Mysql{

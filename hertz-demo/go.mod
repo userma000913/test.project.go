@@ -133,4 +133,5 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gorm.io/plugin/opentracing v0.0.0-20211220013347-7d2b2af23560 // indirect
 )

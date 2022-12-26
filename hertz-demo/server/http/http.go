@@ -63,6 +63,7 @@ func Init(s *service.Service, config *conf.AppConfig) {
 		tracer,
 	)
 	// Tracing & Sentinel
+	// todo cors
 	h.Use(hertztracing.ServerMiddleware(cfg), hertzSentinel.SentinelServerMiddleware())
 
 	// register handler with http route
