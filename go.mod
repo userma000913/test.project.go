@@ -15,12 +15,17 @@ require (
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f // indirect
+	github.com/lestrrat/go-strftime v0.0.0-20180220042222-ba3bf9c1d042 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
@@ -34,6 +39,7 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
+	github.com/robfig/cron v1.2.0 // indirect
 	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -47,8 +53,8 @@ require (
 	golang.org/x/sys v0.0.0-20220908164124-27713097b956 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
-	google.golang.org/genproto v0.0.0-20221024183307-1bc688fe9f3e // indirect
-	google.golang.org/grpc v1.50.1 // indirect
+	google.golang.org/genproto v0.0.0-20230109162033-3c3c17ce83e6 // indirect
+	google.golang.org/grpc v1.51.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
